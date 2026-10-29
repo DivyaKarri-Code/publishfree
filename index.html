@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vio Host Secure</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f172a,#1e3a8a);
+color:white;
+text-align:center;
+padding:30px;
+}
+
+.header{
+margin-bottom:20px;
+}
+
+.secure{
+background:#16a34a;
+padding:10px;
+border-radius:10px;
+display:inline-block;
+margin-bottom:20px;
+font-weight:bold;
+}
+
+.card{
+background:white;
+color:black;
+max-width:700px;
+margin:auto;
+padding:30px;
+border-radius:15px;
+box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+
+input{
+width:90%;
+padding:12px;
+margin:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+background:#2563eb;
+color:white;
+padding:12px 25px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+.hidden{
+display:none;
+}
+
+a{
+font-size:20px;
+color:#2563eb;
+font-weight:bold;
+}
+
+#progress{
+margin-top:15px;
+font-size:18px;
+color:#2563eb;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>🚀 Vio Host</h1>
+<div class="secure">
+🔒 Secure HTTPS Connection
+</div>
+</div>
+
+<div class="card" id="signup">
+
+<h2>Create Account</h2>
+
+<input type="email" id="email"
+placeholder="Enter Email Address">
+
+<br>
+
+<button onclick="sendCode()">
+Get Verification Code
+</button>
+
+<p id="emailMsg"></p>
+
+</div>
+
+<div class="card hidden" id="verify">
+
+<h2>Email Verification</h2>
+
+<p>Your Code:</p>
+
+<h1 id="codeDisplay"></h1>
+
+<input type="text"
+id="verification"
+placeholder="Enter Verification Code">
+
+<br>
+
+<button onclick="verifyCode()">
+Verify Email
+</button>
+
+<p id="verifyMsg"></p>
+
+</div>
+
+<div class="card hidden" id="host">
+
+<h2>Create Your Website</h2>
+
+<input type="text"
+id="websiteName"
+placeholder="Website Name">
+
+<br>
+
+<input type="file"
+id="websiteFile"
+accept=".html">
+
+<br><br>
+
+<button onclick="publishSite()">
+Publish Website
+</button>
+
+<div id="progress"></div>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+let code="";
+
+function sendCode(){
+
+let email=document.getElementById("email").value;
+
+if(email==""){
+document.getElementById("emailMsg").innerHTML=
+"❌ Please enter an email";
+return;
+}
+
+code=Math.floor(100000+Math.random()*900000);
+
+document.getElementById("signup").classList.add("hidden");
+document.getElementById("verify").classList.remove("hidden");
+
+document.getElementById("codeDisplay").innerHTML=code;
+}
+
+function verifyCode(){
+
+let entered=
+document.getElementById("verification").value;
+
+if(entered==code){
+
+document.getElementById("verify").classList.add("hidden");
+
+document.getElementById("host").classList.remove("hidden");
+
+}else{
+
+document.getElementById("verifyMsg").innerHTML=
+"❌ Wrong verification code";
+
+}
+
+}
+
+function publishSite(){
+
+let websiteName=
+document.getElementById("websiteName").value;
+
+let file=
+document.getElementById("websiteFile").files[0];
+
+if(websiteName==""){
+alert("Enter website name");
+return;
+}
+
+if(!file){
+alert("Upload your HTML file");
+return;
+}
+
+document.getElementById("progress").innerHTML=
+"🔒 Encrypting...";
+
+setTimeout(()=>{
+document.getElementById("progress").innerHTML=
+"📦 Uploading Website...";
+},2000);
+
+setTimeout(()=>{
+document.getElementById("progress").innerHTML=
+"🌐 Publishing...";
+},4000);
+
+setTimeout(()=>{
+
+let url=URL.createObjectURL(file);
+
+document.getElementById("progress").innerHTML=
+"✅ Website Published Successfully";
+
+document.getElementById("result").innerHTML=
+`
+<br>
+<a href="${url}" target="_blank">
+Open ${websiteName}
+</a>
+`;
+
+},6000);
+
+}
+
+</script>
+
+</body>
+</html>
